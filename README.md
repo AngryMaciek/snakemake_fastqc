@@ -34,7 +34,7 @@ Unless a  specific snakemake version is specified explicitly it is most likely t
 In case you are missing some dependancy packages please install them first (with `conda install ...` as well).
 
 ### Step 3: Pipeline execution
-Specify all the required information (input/output/parameters) in the config.yaml 
+Specify all the required information (input/output/parameters) in the config.yaml.  
 The main input to the pipeline is the design table which has to have the following format:
 
 sample  fq1 fq2 adapter1  adapter2  
@@ -42,14 +42,14 @@ sample  fq1 fq2 adapter1  adapter2
 [sample_name] [path_to_fq1] [path_to_fq2] [adapter1_sequence] [adapter2_sequence]  
 ...
 
+Where:  
 * Each row is a sequencing sample.
-* All the fastq files need to have a different name. Regardless of their location/directory.
-* fq1 stands for forward-strand reads, fq2 for reverse-strand reads (adapter1/adapter2 stand for matching adapters).
-* In case we have single-end sequencing leave one of the columns as well as corresponding adapter column with empty string.
-* Design table might have more columns than these above.
+* All the fastq files need to have a different name, regardless of their location/directory.
+* fq1 stands for forward-strand reads, fq2 for reverse-strand reads and adapter1/adapter2 stand for matching adapter sequences.
+* In case we have single-end sequencing data please leave fq2 and adapter2 columns with empty strings.
+* Design table might contain more columns than these specified above.
 
-
-Write a DAG (directed acyclic graph) into dag.pdf:
+Once the metadata are ready write a DAG (directed acyclic graph) into dag.pdf:
   ```bash
   bash snakemake_dag_run.sh
   ```
