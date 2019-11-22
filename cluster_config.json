@@ -8,15 +8,7 @@
 "mem":"20G"
 },
 
-"generate_files":
-{
-"queue":"{params.queue}",
-"time": "{params.time}",
-"threads":"{resources.threads}",
-"mem":"{resources.mem}"
-},
-
-"merge_results":
+"run_FastQC":
 {
 "queue":"{params.queue}",
 "time": "{params.time}",
