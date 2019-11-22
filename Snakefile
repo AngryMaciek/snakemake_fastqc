@@ -19,14 +19,16 @@ import pandas as pd
 # local rules
 localrules: all, create_output_dir, extract_adapters,
 
+# get all fastq files
 def get_all_fastq():
-    design_table = pd.read_csv(config["design_file"],sep="\t", index_col=0)
+    design_table = pd.read_csv(config["design_file"], sep="\t", index_col=0)
     x = list(design_table["fq1"])+list(design_table["fq2"])
     x = [i.split("/")[-1].split(".")[0] for i in x if str(i)!="nan"]
     return x
 
+# get full path for a given RNA-Seq sample
 def get_full_path(sample_name):
-    design_table = pd.read_csv(config["design_file"],sep="\t", index_col=0)
+    design_table = pd.read_csv(config["design_file"], sep="\t", index_col=0)
     for i,row in design_table.iterrows():
         if str(row["fq1"])!="nan":
             if row["fq1"].find(sample_name)>-1:
@@ -41,7 +43,10 @@ def get_full_path(sample_name):
 
 rule all:
     input:
-        HTML_fastqc_report = expand("{output_dir}/{sample}_fastqc.html", output_dir=config["output_dir"], sample=get_all_fastq())
+        HTML_fastqc_report = \
+            expand(os.path.join("{output_dir}","{sample}_fastqc.html"), \
+                output_dir=config["output_dir"], \
+                sample=get_all_fastq())
 
 ##############################################################################
 ### Create directories for the result
@@ -63,49 +68,54 @@ rule create_output_dir:
         touch {output.TMP_output}
         """
 
-#################################################################################
+##############################################################################
 ### Extract adapter per fastq file
-#################################################################################
+##############################################################################
 
 rule extract_adapters:
     input:
         TMP_output = os.path.join("{output_dir}", "dir_created")
     output:
-        DIR_adapter_dir = directory(os.path.join("{output_dir}", "adapters"))
-    #params:
-    #    LOG_cluster_log = \
-    #        os.path.join("{output_dir}", "cluster_log", \
-    #            "extract_adapters.log")
+        DIR_adapter_dir = \
+            directory(os.path.join("{output_dir}", "adapters"))
     log:
         LOG_local_log = \
             os.path.join("{output_dir}", "local_log", \
                 "extract_adapters.log"),
     run:
+        # extract adapter sequence per each fastq file
+        # and save it to a separate text file
         os.mkdir(output.DIR_adapter_dir)
-        design_table = pd.read_csv(config["design_file"],sep="\t", index_col=0)
+        design_table = \
+            pd.read_csv(config["design_file"],sep="\t", index_col=0)
         for i,row in design_table.iterrows():
             if str(row["fq1"])!="nan" and str(row["adapter1"])!="nan":
                 fname = row["fq1"].split("/")[-1].split(".")[0]+".txt"
-                with open(os.path.join(output.DIR_adapter_dir,fname),"w") as f:
+                path_adapter = os.path.join(output.DIR_adapter_dir,fname)
+                with open(path_adapter,"w") as f:
                     f.write(row["adapter1"]+"\t"+row["adapter1"]+"\n")
             if str(row["fq2"])!="nan" and str(row["adapter2"])!="":
                 fname = row["fq2"].split("/")[-1].split(".")[0]+".txt"
-                with open(os.path.join(output.DIR_adapter_dir,fname),"w") as f:
+                path_adapter = os.path.join(output.DIR_adapter_dir,fname)
+                with open(path_adapter,"w") as f:
                     f.write(row["adapter2"]+"\t"+row["adapter2"]+"\n")
 
-#################################################################################
+##############################################################################
 ### Reads alignment
-#################################################################################
+##############################################################################
 
 rule run_FastQC:
     input:
-        DIR_adapter_dir = "{output_dir}/adapters",
-        STRING_fastq_path = lambda wildcards: get_full_path(wildcards.sample)
+        DIR_adapter_dir = os.path.join("{output_dir}", "adapters"),
+        STRING_fastq_path = \
+            lambda wildcards: get_full_path(wildcards.sample)
     output:
-        HTML_fastqc_report = "{output_dir}/{sample}_fastqc.html"
+        HTML_fastqc_report = \
+            os.path.join("{output_dir}", "{sample}_fastqc.html")
     params:
         DIR_outdir = "{output_dir}",
-        TXT_sample_adapter = os.path.join("{output_dir}","adapters","{sample}.txt"),
+        TXT_sample_adapter = \
+            os.path.join("{output_dir}", "adapters", "{sample}.txt"),
         LOG_cluster_log = \
             os.path.join("{output_dir}", "cluster_log", \
                 "run_FastQC_{sample}.log"),
