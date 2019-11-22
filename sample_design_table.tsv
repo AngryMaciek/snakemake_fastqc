@@ -1,5 +1,5 @@
-sample	fq1	fq2	adapter1	adapter2	color
-GSM1502498	my_sample_fastq/GSM1502498_2.fastq.gz	my_sample_fastq/GSM1502498_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA	#1b9e77
-GSM1502499	my_sample_fastq/GSM1502499_2.fastq.gz	my_sample_fastq/GSM1502499_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA	#7570b3
-GSM1502500	my_sample_fastq/GSM1502500_2.fastq.gz	my_sample_fastq/GSM1502500_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA	#e6ab02
-GSM1502501	my_sample_fastq/GSM1502501_2.fastq.gz	my_sample_fastq/GSM1502501_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA	#666666
+sample	fq1	fq2	adapter1	adapter2
+GSM1502498	my_sample_fastq/GSM1502498_2.fastq.gz	my_sample_fastq/GSM1502498_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA
+GSM1502499	my_sample_fastq/GSM1502499_2.fastq.gz	my_sample_fastq/GSM1502499_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA
+GSM1502500	my_sample_fastq/GSM1502500_2.fastq.gz	my_sample_fastq/GSM1502500_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA
+GSM1502501	my_sample_fastq/GSM1502501_2.fastq.gz	my_sample_fastq/GSM1502501_1.fastq.gz	AGATCGGAAGAGCGT	GATCGGAAGAGCACA
