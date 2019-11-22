@@ -11,18 +11,10 @@
 ###############################################################################
 ---
 
-# path to the directory with all the scripts and executable files
-src_dir: "src"
-
 # path for the result directory
 output_dir: "output_dir"
 
-# file names for the random samples
-samples_filenames:
-  - "sample1"
-  - "sample2"
-  - "sample3"
-  - "sample4"
-  - "sample5"
+# path to the table with RNA-Seq data info
+design_file: "sample_design_table.tsv"
 
 ...
