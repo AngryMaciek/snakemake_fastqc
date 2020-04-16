@@ -63,4 +63,4 @@ There are two scripts to start the pipeline, depending on whether you want to ru
 
 ## License
 
-GPL v3.0
+Apache 2.0
